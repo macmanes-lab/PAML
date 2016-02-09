@@ -23,6 +23,7 @@ CPU=16
 prep: setup scripts
 main: orthofinder sco sco2cds autoPAML
 sco:SCOs.txt
+orthofinder:OrthologousGroups.txt
 
 subsamp_reads:${SAMP}.subsamp_1.fastq ${SAMP}.subsamp_2.fastq
 
@@ -32,7 +33,7 @@ setup:
 	mkdir -p ${DIR}/error_profiles
 	mkdir -p ${DIR}/assemblies
 
-orthofinder:
+OrthologousGroups.txt:
 	python orthofinder.py -f ${GENOMEDIR} -t ${CPU}
 
 SCOs.txt:
