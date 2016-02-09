@@ -24,7 +24,7 @@ START=1
 
 for inputaln in $(ls *fasta); do
     F=`basename $inputaln .fasta`;
-    if [ $(ps -all | grep 'java\|codeml\|raxmlHPC-PTHREADS' | wc -l | awk '{print $1}') -lt $TC ] ;
+    if [ $(ps -all | grep 'java\|codeml\|raxmlHPC' | wc -l | awk '{print $1}') -lt $TC ] ;
     then
         echo 'I have a core to use'
         java -Xmx2000m -jar /share/bin/macse_v1.01b.jar -prog alignSequences -seq $inputaln -out_NT $F.aln &&
