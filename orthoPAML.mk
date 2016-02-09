@@ -11,7 +11,7 @@ MAKEDIR := $(dir $(firstword $(MAKEFILE_LIST)))
 DIR := ${CURDIR}
 GENOMEDIR :=
 CPU=16
-
+FOCALTAX=
 
 
 #Orthofinder
