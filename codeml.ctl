@@ -1,0 +1,9 @@
+noisy = 1
+verbose = 0
+runmode = 0
+seqtype = 1
+CodonFreq = 2
+model = 0
+NSsites = 1 2 7 8
+fix_omega = 0
+omega = 1
