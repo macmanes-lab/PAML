@@ -33,6 +33,7 @@ for inputaln in $(ls *fasta); do
             python autoPAML.py $F.clean RAxML_bestTree.$F.tree $F.out &&
             python autoPAMLresults.py $F.out | tee -a paml.results &
         else
+            echo 'BOOM!!!'
     else
         echo 'Dont wake me up until there is something else to do'
         sleep 25s
