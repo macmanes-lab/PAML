@@ -26,7 +26,7 @@ for inputaln in $(ls *fasta); do
     then
         echo 'I have a core to use'
         java -Xmx2000m -jar /share/bin/macse_v1.01b.jar -prog alignSequences -seq "$inputaln" -out_NT $F.aln &&
-        perl /share/pal2nal.v14/pal2nal.pl $F'_macse_AA.fasta' $F.aln -output fasta -nogap -nomismatch > $F.clean &
+        perl /share/pal2nal.v14/pal2nal.pl $F'_macse_AA.fasta' $F.aln -output fasta -nogap -nomismatch > $F.clean || true &
     else
         echo 'Dont wake me up until there is something else to do'
         sleep 5s
