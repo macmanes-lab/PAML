@@ -27,6 +27,7 @@ for inputaln in $(ls *fasta); do
         if [ ! -f $F.out ] ;
         then
             echo 'processing' $inputaln
+            awk '{print $1}' $inputaln > tmp && mv tmp $inputaln
             prank -d="$inputaln" -translate -F -o=$F &&
             perl /share/pal2nal.v14/pal2nal.pl $F.best.pep.fas $F.best.nuc.fas -output fasta -nogap -nomismatch > $F.clean || true &&
             raxmlHPC-PTHREADS -f a -m GTRGAMMA -T 2 -x $RANDOM -N 100 -n $F.tree -s $F.clean -p $RANDOM &&
@@ -43,6 +44,7 @@ for inputaln in $(ls *fasta); do
         done
         if [ ! -f $F.out ] ;
         then
+            awk '{print $1}' $inputaln > tmp && mv tmp $inputaln
             prank -d="$inputaln" -translate -F -o=$F &&
             perl /share/pal2nal.v14/pal2nal.pl $F.best.pep.fas $F.best.nuc.fas -output fasta -nogap -nomismatch > $F.clean || true &&
             raxmlHPC-PTHREADS -f a -m GTRGAMMA -T 2 -x $RANDOM -N 100 -n $F.tree -s $F.clean -p $RANDOM &&
