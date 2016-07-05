@@ -22,13 +22,13 @@ done
 
 for inputaln in $(ls *fasta); do
     F=$(basename "$inputaln" .fasta)
-    if [ $(ps -all | grep 'java\|codeml\|raxmlHPC' | wc -l | awk '{print $1}') -lt $TC ] ;
+    if [ $(ps -all | grep 'prank\|codeml\|raxmlHPC' | wc -l | awk '{print $1}') -lt $TC ] ;
     then
         if [ ! -f $F.out ] ;
         then
             echo 'processing' $inputaln
-            java -Xmx2000m -jar /share/bin/macse_v1.01b.jar -prog alignSequences -seq "$inputaln" -out_NT $F.aln &&
-            perl /share/pal2nal.v14/pal2nal.pl $F'_macse_AA.fasta' $F.aln -output fasta -nogap -nomismatch > $F.clean || true &&
+            prank -d="$inputaln" -translate -F -o=$F &&
+            perl /share/pal2nal.v14/pal2nal.pl $F.best.pep.fas $F.best.nuc.fas -output fasta -nogap -nomismatch > $F.clean || true &&
             raxmlHPC-PTHREADS -f a -m GTRGAMMA -T 2 -x $RANDOM -N 100 -n $F.tree -s $F.clean -p $RANDOM &&
             python autoPAML.py $F.clean RAxML_bestTree.$F.tree $F.out &&
             python autoPAMLresults.py $F.out | tee -a paml.results &
@@ -36,15 +36,15 @@ for inputaln in $(ls *fasta); do
             echo 'next'
         fi
     else
-        until [ $(ps -all | grep 'java' | wc -l | awk '{print $1}') -lt $TC ] ;
+        until [ $(ps -all | grep 'prank\|codeml\|raxmlHPC' | wc -l | awk '{print $1}') -lt $TC ] ;
         do
             echo 'waiting for' $inputaln
             sleep 25s;
         done
         if [ ! -f $F.out ] ;
         then
-            java -Xmx2000m -jar /share/bin/macse_v1.01b.jar -prog alignSequences -seq "$inputaln" -out_NT $F.aln &&
-            perl /share/pal2nal.v14/pal2nal.pl $F'_macse_AA.fasta' $F.aln -output fasta -nogap -nomismatch > $F.clean || true &&
+            prank -d="$inputaln" -translate -F -o=$F &&
+            perl /share/pal2nal.v14/pal2nal.pl $F.best.pep.fas $F.best.nuc.fas -output fasta -nogap -nomismatch > $F.clean || true &&
             raxmlHPC-PTHREADS -f a -m GTRGAMMA -T 2 -x $RANDOM -N 100 -n $F.tree -s $F.clean -p $RANDOM &&
             python autoPAML.py $F.clean RAxML_bestTree.$F.tree $F.out &&
             python autoPAMLresults.py $F.out | tee -a paml.results &
