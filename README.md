@@ -1,3 +1,14 @@
+Dependencies
+```
+PAML
+Raxml
+pal2nal
+prank
+rpy2
+R
+```
+
+
 this is the stuff for running paml
 
 ```
