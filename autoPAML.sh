@@ -34,6 +34,7 @@ for inputaln in $(ls *fasta); do
             perl /share/pal2nal.v14/pal2nal.pl $F.best.pep.fas $F.best.nuc.fas -output fasta -nogap -nomismatch > $F.clean || true &&
             raxmlHPC-PTHREADS -f a -m GTRGAMMA -T 2 -x $RANDOM -N 100 -n $F.tree -s $F.clean -p $RANDOM &&
             sed -i -r 's/'$LI'_[0-9]{2,}-RA:[0-9]{1,}.[0-9]{2,}/& #1/g' RAxML_bestTree.$F.tree &&
+            #sed -i -r 's/'$LI'_[[:alpha:]]{3,}.[[:alpha:]]{3,}.[[:alpha:]]{3,}_[[:digit:]]{3,}:[0-9]{1,}.[0-9]{2,}/& #1/g' RAxML_bestTree.$F.tree &&
             python autoPAML.py $F.clean RAxML_bestTree.$F.tree $F.out &&
             python autoPAMLresults.py $F.out | tee -a paml.results &
         else
@@ -52,6 +53,7 @@ for inputaln in $(ls *fasta); do
             perl /share/pal2nal.v14/pal2nal.pl $F.best.pep.fas $F.best.nuc.fas -output fasta -nogap -nomismatch > $F.clean || true &&
             raxmlHPC-PTHREADS -f a -m GTRGAMMA -T 2 -x $RANDOM -N 100 -n $F.tree -s $F.clean -p $RANDOM &&
             sed -i -r 's/'$LI'_[0-9]{2,}-RA:[0-9]{1,}.[0-9]{2,}/& #1/g' RAxML_bestTree.$F.tree &&
+            #sed -i -r 's/'$LI'_[[:alpha:]]{3,}.[[:alpha:]]{3,}.[[:alpha:]]{3,}_[[:digit:]]{3,}:[0-9]{1,}.[0-9]{2,}/& #1/g' RAxML_bestTree.$F.tree &&
             python autoPAML.py $F.clean RAxML_bestTree.$F.tree $F.out &&
             python autoPAMLresults.py $F.out | tee -a paml.results &
         else
